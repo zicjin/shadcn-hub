@@ -1,0 +1,581 @@
+openapi: 3.0.0
+info:
+  title: ShadCN Component Aggregator API
+  version: 1.0.0
+  description: API for browsing and searching shadcn UI components from multiple sources
+
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+  - url: https://api.shadcn-aggregator.com
+    description: Production server
+
+paths:
+  /sources:
+    get:
+      summary: List all component source websites
+      tags:
+        - Sources
+      responses:
+        '200':
+          description: List of source websites
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sources:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SourceWebsite'
+                  total:
+                    type: integer
+
+  /sources/{sourceSlug}:
+    get:
+      summary: Get a specific source website
+      tags:
+        - Sources
+      parameters:
+        - in: path
+          name: sourceSlug
+          required: true
+          schema:
+            type: string
+          description: URL-safe source identifier
+      responses:
+        '200':
+          description: Source website details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceWebsite'
+        '404':
+          description: Source not found
+
+  /sources/{sourceSlug}/components:
+    get:
+      summary: Get all components from a specific source
+      tags:
+        - Sources
+        - Components
+      parameters:
+        - in: path
+          name: sourceSlug
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+      responses:
+        '200':
+          description: Paginated list of components
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedComponents'
+
+  /types:
+    get:
+      summary: List all component types/categories
+      tags:
+        - Types
+      responses:
+        '200':
+          description: List of component types
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  types:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ComponentType'
+                  total:
+                    type: integer
+
+  /types/{typeSlug}/components:
+    get:
+      summary: Get all components of a specific type across all sources
+      tags:
+        - Types
+        - Components
+      parameters:
+        - in: path
+          name: typeSlug
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - in: query
+          name: source
+          schema:
+            type: string
+          description: Filter by source slug
+      responses:
+        '200':
+          description: Paginated list of components
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedComponents'
+
+  /components:
+    get:
+      summary: Browse all components with filters
+      tags:
+        - Components
+      parameters:
+        - in: query
+          name: source
+          schema:
+            type: string
+          description: Filter by source slug
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: Filter by type slug
+        - in: query
+          name: tags
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by tags
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [newest, popular, name]
+            default: newest
+      responses:
+        '200':
+          description: Paginated list of components
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedComponents'
+
+  /components/{componentId}:
+    get:
+      summary: Get a specific component
+      tags:
+        - Components
+      parameters:
+        - in: path
+          name: componentId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Component details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentDetail'
+        '404':
+          description: Component not found
+
+  /components/{componentId}/code:
+    get:
+      summary: Get component source code
+      tags:
+        - Components
+      parameters:
+        - in: path
+          name: componentId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: format
+          schema:
+            type: string
+            enum: [raw, formatted, minified]
+            default: formatted
+      responses:
+        '200':
+          description: Component source code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  language:
+                    type: string
+                  dependencies:
+                    type: object
+
+  /components/{componentId}/instances:
+    get:
+      summary: Get component instances/variants
+      tags:
+        - Components
+      parameters:
+        - in: path
+          name: componentId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Component instances
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instances:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ComponentInstance'
+
+  /search:
+    get:
+      summary: Search components
+      tags:
+        - Search
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema:
+            type: string
+            minLength: 2
+          description: Search query
+        - in: query
+          name: source
+          schema:
+            type: string
+        - in: query
+          name: type
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResults'
+
+  /crawl/trigger:
+    post:
+      summary: Trigger a crawl job for a source
+      tags:
+        - Admin
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - sourceSlug
+              properties:
+                sourceSlug:
+                  type: string
+                force:
+                  type: boolean
+                  default: false
+      responses:
+        '201':
+          description: Crawl job created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrawlJob'
+        '409':
+          description: Crawl already in progress
+
+  /crawl/status/{jobId}:
+    get:
+      summary: Get crawl job status
+      tags:
+        - Admin
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Crawl job status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrawlJob'
+
+  /stats:
+    get:
+      summary: Get aggregator statistics
+      tags:
+        - Stats
+      responses:
+        '200':
+          description: Platform statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalComponents:
+                    type: integer
+                  totalSources:
+                    type: integer
+                  totalTypes:
+                    type: integer
+                  lastUpdateTime:
+                    type: string
+                    format: date-time
+                  popularComponents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Component'
+
+components:
+  schemas:
+    SourceWebsite:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        slug:
+          type: string
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+        logoUrl:
+          type: string
+          format: uri
+        licenseType:
+          type: string
+          enum: [MIT, Apache, Commercial, Mixed]
+        componentCount:
+          type: integer
+        lastCrawledAt:
+          type: string
+          format: date-time
+
+    ComponentType:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        iconName:
+          type: string
+        componentCount:
+          type: integer
+
+    Component:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        sourceWebsite:
+          $ref: '#/components/schemas/SourceWebsite'
+        componentType:
+          $ref: '#/components/schemas/ComponentType'
+        thumbnailUrl:
+          type: string
+          format: uri
+        tags:
+          type: array
+          items:
+            type: string
+        viewCount:
+          type: integer
+
+    ComponentDetail:
+      allOf:
+        - $ref: '#/components/schemas/Component'
+        - type: object
+          properties:
+            sourceUrl:
+              type: string
+              format: uri
+            previewUrl:
+              type: string
+              format: uri
+            sourceCode:
+              type: string
+            codeLanguage:
+              type: string
+            dependencies:
+              type: object
+            props:
+              type: object
+            variants:
+              type: array
+              items:
+                type: object
+            license:
+              type: string
+            author:
+              type: string
+            version:
+              type: string
+            lastUpdatedAt:
+              type: string
+              format: date-time
+
+    ComponentInstance:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        propsConfiguration:
+          type: object
+        previewCode:
+          type: string
+        isDefault:
+          type: boolean
+
+    PaginatedComponents:
+      type: object
+      properties:
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/Component'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    SearchResults:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Component'
+        total:
+          type: integer
+        responseTime:
+          type: integer
+        suggestions:
+          type: array
+          items:
+            type: string
+
+    CrawlJob:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        sourceWebsiteId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, running, success, failed, cancelled]
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+        componentsFound:
+          type: integer
+        componentsUpdated:
+          type: integer
+        componentsAdded:
+          type: integer
+        duration:
+          type: integer
+        errorMessage:
+          type: string
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+        totalPages:
+          type: integer
+        hasNext:
+          type: boolean
+        hasPrevious:
+          type: boolean
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
