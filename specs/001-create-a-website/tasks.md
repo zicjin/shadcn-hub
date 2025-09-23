@@ -80,22 +80,22 @@
 - [X] T032 [P] Contract test GET /api/stats in backend/tests/contract/test-stats.ts
 
 ## Phase 3.4: Backend Core Implementation
-- [ ] T033 Setup Express server with TypeScript in backend/src/server.ts
-- [ ] T034 Configure middleware (CORS, body parser, etc.) in backend/src/middleware/
-- [ ] T035 Create Zod validation schemas in backend/src/validation/
-- [ ] T036 [P] Implement SourceWebsite service in backend/src/services/source-website.service.ts
-- [ ] T037 [P] Implement ComponentType service in backend/src/services/component-type.service.ts
-- [ ] T038 [P] Implement Component service in backend/src/services/component.service.ts
-- [ ] T039 [P] Implement Search service with PostgreSQL full-text in backend/src/services/search.service.ts
-- [ ] T040 [P] Implement Stats service in backend/src/services/stats.service.ts
-- [ ] T041 Implement API route handlers in backend/src/routes/sources.routes.ts
-- [ ] T042 Implement API route handlers in backend/src/routes/types.routes.ts
-- [ ] T043 Implement API route handlers in backend/src/routes/components.routes.ts
-- [ ] T044 Implement API route handlers in backend/src/routes/search.routes.ts
-- [ ] T045 Implement API route handlers in backend/src/routes/crawl.routes.ts
-- [ ] T046 Implement API route handlers in backend/src/routes/stats.routes.ts
-- [ ] T047 Setup error handling middleware in backend/src/middleware/error.middleware.ts
-- [ ] T048 Setup request logging middleware in backend/src/middleware/logging.middleware.ts
+- [X] T033 Setup Express server with TypeScript in backend/src/server.ts
+- [X] T034 Configure middleware (CORS, body parser, etc.) in backend/src/middleware/
+- [X] T035 Create Zod validation schemas in backend/src/validation/
+- [X] T036 [P] Implement SourceWebsite service in backend/src/services/source-website.service.ts
+- [X] T037 [P] Implement ComponentType service in backend/src/services/component-type.service.ts
+- [X] T038 [P] Implement Component service in backend/src/services/component.service.ts
+- [X] T039 [P] Implement Search service with PostgreSQL full-text in backend/src/services/search.service.ts
+- [X] T040 [P] Implement Stats service in backend/src/services/stats.service.ts
+- [X] T041 Implement API route handlers in backend/src/routes/sources.routes.ts
+- [X] T042 Implement API route handlers in backend/src/routes/types.routes.ts
+- [X] T043 Implement API route handlers in backend/src/routes/components.routes.ts
+- [X] T044 Implement API route handlers in backend/src/routes/search.routes.ts
+- [X] T045 Implement API route handlers in backend/src/routes/crawl.routes.ts
+- [X] T046 Implement API route handlers in backend/src/routes/stats.routes.ts
+- [X] T047 Setup error handling middleware in backend/src/middleware/error.middleware.ts
+- [X] T048 Setup request logging middleware in backend/src/middleware/logging.middleware.ts
 
 ## Phase 3.5: Crawler Implementation
 - [ ] T049 Setup Crawlee configuration in backend/src/crawler/config.ts
