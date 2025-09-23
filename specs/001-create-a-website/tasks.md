@@ -41,43 +41,43 @@
 - All paths relative to repository root
 
 ## Phase 3.1: Setup & Configuration
-- [ ] T001 Initialize monorepo structure with frontend/ and backend/ directories
-- [ ] T002 Create root package.json with npm workspaces configuration
-- [ ] T003 [P] Setup backend TypeScript configuration in backend/tsconfig.json
-- [ ] T004 [P] Setup frontend TypeScript configuration in frontend/tsconfig.json
-- [ ] T005 [P] Configure ESLint and Prettier for entire monorepo
-- [ ] T006 Create .env.example with all required environment variables
-- [ ] T007 Setup Git hooks with Husky for pre-commit linting
+- [X] T001 Initialize monorepo structure with frontend/ and backend/ directories
+- [X] T002 Create root package.json with npm workspaces configuration
+- [X] T003 [P] Setup backend TypeScript configuration in backend/tsconfig.json
+- [X] T004 [P] Setup frontend TypeScript configuration in frontend/tsconfig.json
+- [X] T005 [P] Configure ESLint and Prettier for entire monorepo
+- [X] T006 Create .env.example with all required environment variables
+- [X] T007 Setup Git hooks with Husky for pre-commit linting
 
 ## Phase 3.2: Database Setup
-- [ ] T008 Initialize PostgreSQL database schema
-- [ ] T009 Setup Drizzle ORM configuration in backend/src/db/config.ts
-- [ ] T010 [P] Create Drizzle schema for SourceWebsite entity in backend/src/db/schema/source-website.ts
-- [ ] T011 [P] Create Drizzle schema for ComponentType entity in backend/src/db/schema/component-type.ts
-- [ ] T012 [P] Create Drizzle schema for Component entity in backend/src/db/schema/component.ts
-- [ ] T013 [P] Create Drizzle schema for ComponentInstance entity in backend/src/db/schema/component-instance.ts
-- [ ] T014 [P] Create Drizzle schema for CrawlJob entity in backend/src/db/schema/crawl-job.ts
-- [ ] T015 [P] Create Drizzle schema for UserFavorite entity in backend/src/db/schema/user-favorite.ts
-- [ ] T016 [P] Create Drizzle schema for SearchLog entity in backend/src/db/schema/search-log.ts
-- [ ] T017 Create database migrations in backend/src/db/migrations/
-- [ ] T018 Create database seed script in backend/src/db/seed.ts
-- [ ] T019 Setup database connection pool in backend/src/db/client.ts
+- [X] T008 Initialize PostgreSQL database schema
+- [X] T009 Setup Drizzle ORM configuration in backend/src/db/config.ts
+- [X] T010 [P] Create Drizzle schema for SourceWebsite entity in backend/src/db/schema/source-website.ts
+- [X] T011 [P] Create Drizzle schema for ComponentType entity in backend/src/db/schema/component-type.ts
+- [X] T012 [P] Create Drizzle schema for Component entity in backend/src/db/schema/component.ts
+- [X] T013 [P] Create Drizzle schema for ComponentInstance entity in backend/src/db/schema/component-instance.ts
+- [X] T014 [P] Create Drizzle schema for CrawlJob entity in backend/src/db/schema/crawl-job.ts
+- [X] T015 [P] Create Drizzle schema for UserFavorite entity in backend/src/db/schema/user-favorite.ts
+- [X] T016 [P] Create Drizzle schema for SearchLog entity in backend/src/db/schema/search-log.ts
+- [X] T017 Create database migrations in backend/src/db/migrations/
+- [X] T018 Create database seed script in backend/src/db/seed.ts
+- [X] T019 Setup database connection pool in backend/src/db/client.ts
 
 ## Phase 3.3: API Contract Tests (TDD - MUST FAIL FIRST)
 **CRITICAL: Write these tests BEFORE implementation. They MUST fail initially.**
-- [ ] T020 [P] Contract test GET /api/sources in backend/tests/contract/test-sources-get.ts
-- [ ] T021 [P] Contract test GET /api/sources/:slug in backend/tests/contract/test-source-get.ts
-- [ ] T022 [P] Contract test GET /api/sources/:slug/components in backend/tests/contract/test-source-components.ts
-- [ ] T023 [P] Contract test GET /api/types in backend/tests/contract/test-types-get.ts
-- [ ] T024 [P] Contract test GET /api/types/:slug/components in backend/tests/contract/test-type-components.ts
-- [ ] T025 [P] Contract test GET /api/components in backend/tests/contract/test-components-browse.ts
-- [ ] T026 [P] Contract test GET /api/components/:id in backend/tests/contract/test-component-get.ts
-- [ ] T027 [P] Contract test GET /api/components/:id/code in backend/tests/contract/test-component-code.ts
+- [X] T020 [P] Contract test GET /api/sources in backend/tests/contract/test-sources-get.ts
+- [X] T021 [P] Contract test GET /api/sources/:slug in backend/tests/contract/test-source-get.ts
+- [X] T022 [P] Contract test GET /api/sources/:slug/components in backend/tests/contract/test-source-components.ts
+- [X] T023 [P] Contract test GET /api/types in backend/tests/contract/test-types-get.ts
+- [X] T024 [P] Contract test GET /api/types/:slug/components in backend/tests/contract/test-type-components.ts
+- [X] T025 [P] Contract test GET /api/components in backend/tests/contract/test-components-browse.ts
+- [X] T026 [P] Contract test GET /api/components/:id in backend/tests/contract/test-component-get.ts
+- [X] T027 [P] Contract test GET /api/components/:id/code in backend/tests/contract/test-component-code.ts
 - [ ] T028 [P] Contract test GET /api/components/:id/instances in backend/tests/contract/test-component-instances.ts
-- [ ] T029 [P] Contract test GET /api/search in backend/tests/contract/test-search.ts
+- [X] T029 [P] Contract test GET /api/search in backend/tests/contract/test-search.ts
 - [ ] T030 [P] Contract test POST /api/crawl/trigger in backend/tests/contract/test-crawl-trigger.ts
 - [ ] T031 [P] Contract test GET /api/crawl/status/:id in backend/tests/contract/test-crawl-status.ts
-- [ ] T032 [P] Contract test GET /api/stats in backend/tests/contract/test-stats.ts
+- [X] T032 [P] Contract test GET /api/stats in backend/tests/contract/test-stats.ts
 
 ## Phase 3.4: Backend Core Implementation
 - [ ] T033 Setup Express server with TypeScript in backend/src/server.ts
